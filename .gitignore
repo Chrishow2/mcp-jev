@@ -1,0 +1,35 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# local MCP client configs (copy from samples/)
+.cursor/mcp.json
+.mcp.json
+
+# python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+
+# testing / linting
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# editors / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db

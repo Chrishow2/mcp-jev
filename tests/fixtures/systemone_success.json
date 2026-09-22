@@ -1,0 +1,23 @@
+{
+  "model": "jev-1.13.0",
+  "answers": {
+    "is_sponsor_inquiry": {
+      "type": "noul",
+      "noul": 0.99
+    },
+    "product_category": {
+      "type": "choice",
+      "choice": "dev_tool",
+      "probabilities": {
+        "dev_tool": 0.97,
+        "course": 0.01,
+        "unrelated": 0.02
+      },
+      "confidence": 0.95
+    }
+  },
+  "usage": {
+    "input_tokens": 210,
+    "output_tokens": 31
+  }
+}

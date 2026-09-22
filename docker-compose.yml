@@ -1,0 +1,17 @@
+services:
+  jev:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "127.0.0.1:${APP_PORT:-8000}:${JEV_PORT:-8000}"
+    env_file:
+      - path: .env
+        required: true
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; s=socket.create_connection(('127.0.0.1', 8000), 2); s.close()"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
