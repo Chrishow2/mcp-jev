@@ -6,26 +6,60 @@ Jev is the fast classifier; your main LLM is the writer. This server is the brid
 
 ## Requirements
 
-- Docker and Docker Compose
+- Docker (Compose optional — only needed to build from source)
 - A TypeSafe API key from [console.typesafe.ai](https://console.typesafe.ai)
 
-For development and tests only: Python 3.11+
+For development and tests only: Python 3.11+ and Docker Compose
 
-## Quick start (Docker)
+## Quick start (published image)
 
-Copy `.env.example` to `.env` and set your key (local only — never commit):
+Pre-built images are published to GitHub Container Registry on each push to `main`:
+
+`ghcr.io/chrishow2/mcp-jev:latest`
+
+Pull and run (replace the API key; never commit it):
+
+```bash
+docker run -d --name mcp-jev -e TYPESAFE_API_KEY=sk-your-key-here -p 127.0.0.1:8000:8000 --restart unless-stopped ghcr.io/chrishow2/mcp-jev:latest
+```
+
+The server listens at `http://127.0.0.1:8000/mcp` (Streamable HTTP transport).
+
+Pin a specific build with a git SHA tag (for example `ghcr.io/chrishow2/mcp-jev:abc1234`) — tags are listed on the [package page](https://github.com/Chrishow2/mcp-jev/pkgs/container/mcp-jev).
+
+**Compose without building** — create a `.env` with `TYPESAFE_API_KEY`, then:
+
+```yaml
+# docker-compose.image.yml
+services:
+  jev:
+    image: ghcr.io/chrishow2/mcp-jev:latest
+    ports:
+      - "127.0.0.1:8000:8000"
+    env_file:
+      - .env
+    restart: unless-stopped
+```
+
+```bash
+docker compose -f docker-compose.image.yml up -d
+```
+
+## Quick start (from source)
+
+Clone this repo, copy `.env.example` to `.env`, and set your key (local only — never commit):
 
 ```bash
 copy .env.example .env
 ```
 
-Start the MCP HTTP API:
+Build and start the MCP HTTP API:
 
 ```bash
 docker compose up --build -d
 ```
 
-The server listens at `http://127.0.0.1:8000/mcp` (Streamable HTTP transport).
+Same endpoint: `http://127.0.0.1:8000/mcp`.
 
 ## MCP client setup
 
@@ -38,7 +72,7 @@ mkdir .cursor
 copy samples\cursor.mcp.json.example .cursor\mcp.json
 ```
 
-Start the container before using MCP (`docker compose up -d`). Reload MCP servers after changing `.env`.
+Start the container before using MCP (`docker run …` or `docker compose up -d`). Reload MCP servers after changing the API key.
 
 See [`samples/README.md`](samples/README.md) for Claude Code and Claude Desktop paths and notes.
 
